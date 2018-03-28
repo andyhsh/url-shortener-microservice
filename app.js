@@ -13,8 +13,8 @@ mongoose.connect(uriString);
 mongoose.connection.on('error', () =>
   console.error(`Error connecting to database: ${uriString}`)
 );
-mongoose.connection.once('open', () =>
-  consoel.log(`Successfully connected to database: ${uriString}`)
-);
+mongoose.connection.once('open', () => {
+  console.log(`Successfully connected to database: ${uriString}`);
+});
 
 module.exports = app;
