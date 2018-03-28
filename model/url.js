@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const urlSchema = new Schema({
   originalUrl: String,
-  shortenedUrl: Number,
+  shortenedUrl: String,
   createdAt: { type: Date, default: Date.now() }
 });
 
