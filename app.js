@@ -19,6 +19,7 @@ mongoose.connection.once('open', () => {
   console.log(`Successfully connected to database: ${uriString}`);
 });
 
+// set up routing
 app.use('/', serveUrl);
 app.use('/api', shortenUrl);
 

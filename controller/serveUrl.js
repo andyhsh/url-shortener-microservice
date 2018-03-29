@@ -17,6 +17,12 @@ const serveUrl = (req, res) => {
   });
 };
 
+const generateIndex = (req, res) => {
+  const url = `${req.protocol}://${req.headers.host}`;
+  res.render('index', { url });
+};
+
 router.get('/:id', serveUrl);
+router.get('/', generateIndex);
 
 module.exports = router;
