@@ -9,14 +9,17 @@ const generateId = () => {
   return Math.floor(Math.random() * 1000);
 };
 
-const createUrl = (req, res) => {
+const shortenUrl = (req, res) => {
   const originalUrl = req.params.url;
   if (validUrl.isUri(originalUrl)) {
     // check if originalUrl already stored in database first
-    Url.find({ originalUrl })
+    Url.findOne({ originalUrl })
       .then(function(url) {
-        if (url.length !== 0) {
-          return res.status(200).json({ error: 'Url already shortened' });
+        console.log('findDb: ', url);
+        if (url) {
+          return res
+            .status(200)
+            .json({ error: `Url already shortened at ${url.shortenedUrl}` });
         }
 
         const shortenedUrl = `${req.protocol}://${
@@ -48,6 +51,6 @@ const createUrl = (req, res) => {
 };
 
 // pass in (*) so that colons and slashes will not be confused by express
-router.get('/api/:url(*)', createUrl);
+router.get('/:url(*)', shortenUrl);
 
 module.exports = router;

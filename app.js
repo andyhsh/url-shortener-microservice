@@ -1,7 +1,8 @@
 'use strict';
 const express = require('express');
 const mongoose = require('mongoose');
-const router = require('./controller/url');
+const shortenUrl = require('./controller/shortenUrl');
+const serveUrl = require('./controller/serveUrl');
 const app = express();
 
 // set up view engine
@@ -18,6 +19,7 @@ mongoose.connection.once('open', () => {
   console.log(`Successfully connected to database: ${uriString}`);
 });
 
-app.use('/', router);
+app.use('/', serveUrl);
+app.use('/api', shortenUrl);
 
 module.exports = app;
