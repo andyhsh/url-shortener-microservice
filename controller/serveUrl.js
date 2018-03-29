@@ -10,7 +10,7 @@ const serveUrl = (req, res) => {
     if (url) {
       res.redirect(url.originalUrl);
     } else {
-      res.status(200).json({
+      res.json({
         error: 'This url cannot be found in the database.'
       });
     }

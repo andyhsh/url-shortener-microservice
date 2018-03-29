@@ -15,25 +15,23 @@ const shortenUrl = (req, res) => {
     // check if originalUrl already stored in database first
     Url.findOne({ originalUrl })
       .then(function(url) {
-        console.log('findDb: ', url);
         if (url) {
           return res
-            .status(200)
+            .set('Content-Type', 'application/json')
             .json({ error: `Url already shortened at ${url.shortenedUrl}` });
         }
 
-        const shortenedUrl = `${req.protocol}://${
-          req.headers.host
-        }/${generateId()}`;
-
+        const id = generateId();
+        const shortenedUrl = `${req.protocol}://${req.headers.host}/${id}`;
         const newUrl = new Url({ originalUrl, shortenedUrl });
 
         newUrl
           .save()
           .then(function(newUrl) {
-            console.log('Saved new url: ', newUrl);
             const { originalUrl, shortenedUrl } = newUrl;
-            res.status(200).json({ originalUrl, shortenedUrl });
+            res
+              .set('Content-Type', 'application/json')
+              .json({ originalUrl, shortenedUrl });
           })
           .catch(err => {
             return console.error(err);
@@ -43,7 +41,7 @@ const shortenUrl = (req, res) => {
         return console.error(err);
       });
   } else {
-    res.status(200).json({
+    res.set('Content-Type', 'application/json').json({
       error:
         'Wrong url format, make sure you have a valid protocol and real site.'
     });
